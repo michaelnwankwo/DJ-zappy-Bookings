@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DJ ZAPPY | Smart-Booking Engine</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Rajdhani:wght@300;500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"
+    ></script>
+    <script type="text/javascript">
+      (function () {
+        emailjs.init("wlLD-b1nzgPAws_Qj");
+      })();
+    </script>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" type="image/png" href="image/favicon.png" />
+    <link rel="icon" sizes="192x192" href="favicon.png" />
+    <link rel="apple-touch-icon" href="favicon.png" />
+  </head>
+  <div id="success-overlay">
+    <div class="success-message">
+      <h2>BOOKING SECURED</h2>
+      <p style="color: white; font-family: &quot;Rajdhani&quot;">
+        TRANSMISSION COMPLETE. ZAPPY IS INITIALIZING.
+      </p>
+      <button
+        onclick="
+          document.getElementById('success-overlay').classList.remove('active')
+        "
+        class="select-btn"
+        style="margin-top: 20px"
+      >
+        Return to Homepage
+      </button>
+    </div>
+  </div>
+  <body class="dark-tech-bg">
+    <header class="branding-header">
+      <div class="logo-container">
+        <img src="image/logo.png" alt="DJ ZAPPY Logo" class="main-logo" />
+      </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-6">
+      <section class="mission-container">
+        <h2 class="section-title">
+          Experience the Ultimate DJ Package Tailored for Your Event.
+        </h2>
+        <p class="section-description">
+          Powered by the Denon DJ Prime 4+, offering surgical capabilities that
+          standard setups cannot match.
+        </p>
+      </section>
+
+      <div class="package-grid">
+        <div class="package-card" data-package="base" data-price="500">
+          <h3 class="package-name">The "Base Vibe"</h3>
+          <div class="package-price">$500</div>
+          <ul class="feature-list">
+            <li>4 Hours High-Energy Mixing</li>
+            <li>Infinite Request Line (Cloud)</li>
+            <li>High-Fidelity Audio</li>
+          </ul>
+          <button type="button" class="select-btn">Select Base</button>
+        </div>
+
+        <div
+          class="package-card featured-card"
+          data-package="surgical"
+          data-price="700"
+        >
+          <span class="badge">Value: $50 Savings</span>
+          <h3 class="package-name cyan-text">Surgical Atmosphere</h3>
+          <div class="package-price">$700</div>
+          <ul class="feature-list">
+            <li>Multi-Room Sound Expansion</li>
+            <li>Live Surgical Remixing (Stems)</li>
+            <li>4 Hours of Performance</li>
+          </ul>
+          <button type="button" class="select-btn-primary">
+            Select Surgical
+          </button>
+        </div>
+
+        <div class="package-card" data-package="ignite" data-price="850">
+          <h3 class="package-name">Total Ignite</h3>
+          <div class="package-price">$850</div>
+          <ul class="feature-list">
+            <li>All Surgical Features Included</li>
+            <li>Pro Atmospheric Lighting Sync</li>
+            <li>Integrated DMX Light Show</li>
+          </ul>
+          <button type="button" class="select-btn">Select Ignite</button>
+        </div>
+      </div>
+
+      <form id="booking-form">
+        <section id="package-details-area" class="addons-container">
+          <h3 class="addons-title">PACKAGE CUSTOMIZATION</h3>
+
+          <div class="addons-grid">
+            <label class="addon-item">
+              <span>Extra Performance Time (Per Hour)</span>
+              <div class="addon-action">
+                <span class="addon-price">+$125</span>
+                <input type="checkbox" name="extra-time" data-price="125" />
+              </div>
+            </label>
+
+            <label class="addon-item">
+              <span>Multi-Room Sound Expansion</span>
+              <div class="addon-action">
+                <span class="addon-price">+$150</span>
+                <input type="checkbox" name="multi-room" data-price="150" />
+              </div>
+            </label>
+
+            <label class="addon-item">
+              <span>Live Surgical Remixing (Stems)</span>
+              <div class="addon-action">
+                <span class="addon-price">+$100</span>
+                <input type="checkbox" name="stems" data-price="100" />
+              </div>
+            </label>
+
+            <label class="addon-item">
+              <span>Atmospheric Lighting Sync (DMX)</span>
+              <div class="addon-action">
+                <span class="addon-price">+$200</span>
+                <input type="checkbox" name="dmx" data-price="200" />
+              </div>
+            </label>
+          </div>
+
+          <div class="lead-capture-grid" style="margin-top: 40px">
+            <input
+              type="text"
+              name="client_name"
+              placeholder="Full Name"
+              required
+            />
+            <input
+              type="email"
+              name="client_email"
+              placeholder="Email Address"
+              required
+            />
+            <input
+              type="tel"
+              name="client_number"
+              placeholder="Phone Number (e.g. 080...)"
+              required
+            />
+            <input type="date" name="event_date" required />
+          </div>
+        </section>
+      </form>
+    </main>
+
+    <footer class="sticky-footer">
+      <div class="total-container">
+        <p class="total-label">Total Investment</p>
+        <div id="total-display" class="total-amount">$0</div>
+      </div>
+      <button type="submit" form="booking-form" class="book-now-btn">
+        Secure Booking
+      </button>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
