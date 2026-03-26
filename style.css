@@ -891,12 +891,23 @@ input:-webkit-autofill {
    ============================================ */
 @media (max-width: 768px) {
   .package-grid {
+    display: flex; /* Switch to flex to use the order property */
+    flex-direction: column;
     grid-template-columns: 1fr;
+  }
+
+  .package-grid .package-card:nth-child(1) {
+    order: 1;
   }
 
   .featured-card {
     transform: none;
-    order: -1;
+    order: 2; /* Forces it to appear after the first card */
+  }
+
+  /* Target the third package (if applicable) */
+  .package-grid .package-card:nth-child(3) {
+    order: 3;
   }
 
   .featured-card:hover {
