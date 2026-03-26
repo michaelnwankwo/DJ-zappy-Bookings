@@ -1,6 +1,6 @@
 /* ============================================
    DJ ZAPPY - SMART-BOOKING ENGINE 
-   CORE OPERATING SYSTEM (V4.5 - BRANDED)
+   CORE OPERATING SYSTEM (V5.0 - HYBRID ADAPTIVE)
    ============================================ */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -19,7 +19,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // --- 2. LOGIC: BRAND PULSE & FAILSAFE ---
   if (mainLogo) {
-    // If the logo file is missing, hide the broken icon to keep the UI clean
     mainLogo.onerror = () => (mainLogo.style.display = "none");
   }
 
@@ -37,20 +36,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // --- 3. PACKAGE SELECTION LOGIC ---
   packageCards.forEach((card) => {
     card.addEventListener("click", function () {
-      // UI Reset
       packageCards.forEach((c) => c.classList.remove("selected"));
-      document
-        .querySelectorAll(".select-btn, .select-btn-primary")
-        .forEach((btn) => {
-          btn.classList.remove("active");
-        });
-
-      // Activate Selection
       this.classList.add("selected");
-      const innerBtn = this.querySelector("button");
-      if (innerBtn) innerBtn.classList.add("active");
 
-      // Set Price & Pulse Branding
       currentBasePrice = parseInt(this.getAttribute("data-price")) || 0;
       triggerLogoPulse();
       calculateTotal();
@@ -73,36 +61,45 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function calculateTotal() {
     let total = currentBasePrice;
-
     checkboxes.forEach((check) => {
       if (check.checked) {
         total += parseInt(check.getAttribute("data-price")) || 0;
       }
     });
 
-    // Update Total Display with "Updating" Effect
-    totalDisplay.classList.add("updating");
-    totalDisplay.innerText = `$${total}`;
-
-    setTimeout(() => {
-      totalDisplay.classList.remove("updating");
-    }, 300);
+    if (totalDisplay) {
+      totalDisplay.classList.add("updating");
+      totalDisplay.innerText = `$${total}`;
+      setTimeout(() => totalDisplay.classList.remove("updating"), 300);
+    }
   }
 
-  // --- 5. DATE PICKER ENHANCEMENT ---
+  // --- 5. HYBRID DATE PICKER (iOS PLACEHOLDER FIX) ---
   if (dateInput) {
-    dateInput.addEventListener("click", function () {
-      try {
-        if (typeof this.showPicker === "function") {
+    // Ensure it starts as text to show placeholder
+    dateInput.type = "text";
+
+    dateInput.addEventListener("focus", function () {
+      this.type = "date";
+      // Try to open native picker immediately
+      if (typeof this.showPicker === "function") {
+        try {
           this.showPicker();
+        } catch (e) {
+          console.log("Internal picker call failed, falling back to focus.");
         }
-      } catch (err) {
-        this.focus();
+      }
+    });
+
+    dateInput.addEventListener("blur", function () {
+      // If no date was selected, switch back to text to show placeholder
+      if (!this.value) {
+        this.type = "text";
       }
     });
   }
 
-  // --- 6. SECURE BOOKING (EMAILJS + SMS ALERTS) ---
+  // --- 6. SECURE BOOKING (EMAILJS) ---
   if (bookingForm) {
     bookingForm.addEventListener("submit", function (e) {
       e.preventDefault();
@@ -115,17 +112,18 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       const submitBtn = document.querySelector(".book-now-btn");
-      submitBtn.innerText = "BOOKING...";
+      const originalText = submitBtn.innerText;
+
+      submitBtn.innerText = "INITIALIZING...";
       submitBtn.style.opacity = "0.5";
       submitBtn.disabled = true;
 
-      // DATA COLLECTOR: Summary of all choices
       const selectedAddons = [];
       checkboxes.forEach((check) => {
         if (check.checked) {
-          const addonName = check
-            .closest(".addon-item")
-            .querySelector("span").innerText;
+          const addonName =
+            check.closest(".addon-item").querySelector("span")?.innerText ||
+            "Unknown Addon";
           selectedAddons.push(addonName);
         }
       });
@@ -139,46 +137,37 @@ document.addEventListener("DOMContentLoaded", () => {
         event_date: document.querySelector('input[name="event_date"]').value,
         total_price: totalDisplay.innerText,
         package_selected:
-          document.querySelector(".package-card.selected .package-name")
-            ?.innerText || "Custom",
+          document.querySelector(".package-card.selected h3")?.innerText ||
+          "Custom",
         addons_list:
           selectedAddons.length > 0
             ? selectedAddons.join(", ")
             : "None Selected",
       };
 
-      // !!! REPLACE WITH YOUR DASHBOARD IDs !!!
       const SERVICE_ID = "service_q6pj0t4";
       const TEMPLATE_ID = "template_xsag79r";
 
       emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams).then(
         () => {
-          // SUCCESS: Trigger Success Overlay
-          if (successOverlay) {
-            successOverlay.classList.add("active");
-          }
-
-          // Reset UI State
+          if (successOverlay) successOverlay.classList.add("active");
           submitBtn.innerText = "BOOKING SECURED";
           submitBtn.style.opacity = "1";
-          submitBtn.disabled = false;
 
           bookingForm.reset();
+          if (dateInput) dateInput.type = "text"; // Reset date field state
           currentBasePrice = 0;
           calculateTotal();
-
-          // Cleanup selections
           packageCards.forEach((c) => c.classList.remove("selected"));
-          checkboxes.forEach((c) => {
-            const parent = c.closest(".addon-item");
-            if (parent) parent.classList.remove("selected");
-          });
+          checkboxes.forEach((c) =>
+            c.closest(".addon-item").classList.remove("selected"),
+          );
         },
         (error) => {
-          submitBtn.innerText = "SECURE BOOKING";
+          submitBtn.innerText = originalText;
           submitBtn.style.opacity = "1";
           submitBtn.disabled = false;
-          alert("Submission Failed. Check your EmailJS IDs.");
+          alert("Submission Failed. Please try again.");
           console.error("EmailJS Error:", error);
         },
       );
