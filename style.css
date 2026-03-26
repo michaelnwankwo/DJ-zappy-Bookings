@@ -948,6 +948,12 @@ input:not([type="checkbox"]) {
     width: 100%;
   }
 
+   .sticky-footer {
+    /* Keeps items stacked but left-aligned on mobile */
+    align-items: flex-start;
+    gap: var(--space-md);
+  }
+
   .addons-grid {
     grid-template-columns: 1fr;
   }
