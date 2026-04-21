@@ -217,12 +217,13 @@ body {
 
 .section-title {
   font-family: var(--font-display);
-  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  font-size: clamp(0.5rem, 4vw, 0.9rem);
   color: var(--electric-purple);
   text-transform: uppercase;
   letter-spacing: 0.15em;
   margin-bottom: var(--space-md);
   text-shadow: 0 0 20px var(--neon-purple-glow);
+  text-align: center;
 }
 
 .section-description {
@@ -1019,12 +1020,6 @@ input:-webkit-autofill {
 }
 
 /* Selection color */
-::selection {
-  background: var(--electric-purple);
-  color: var(--off-white);
-}
-
-/* Selection color */
 .live-gallery {
   padding: 80px 20px;
   background: transparent;
@@ -1088,4 +1083,3 @@ input:-webkit-autofill {
     font-size: 0.9rem;
   }
 }
-
