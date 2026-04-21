@@ -1023,3 +1023,69 @@ input:-webkit-autofill {
   background: var(--electric-purple);
   color: var(--off-white);
 }
+
+/* Selection color */
+.live-gallery {
+  padding: 80px 20px;
+  background: transparent;
+  display: flex;
+  justify-content: center;
+}
+
+.gallery-container {
+  /* This creates the "Medium Sized" box effect on large screens */
+  width: 100%;
+  max-width: 700px;
+}
+
+.video-gallery-item video {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid #c0c0c0;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  display: block;
+  filter: brightness(75%) contrast(110%);
+}
+
+/* Stylish Caption */
+.caption-wrapper {
+  margin-top: 25px;
+  padding: 0 15px;
+}
+
+.section-description {
+  text-align: center;
+  color: #a9a9a9; /* Slightly darker silver for readability  */
+  font-family: "Inter", sans-serif; /*  */
+  font-weight: 300;
+  line-height: 1.6;
+  letter-spacing: 0.5px;
+  font-size: 1.05rem;
+}
+
+.section-description .highlight {
+  color: #ffffff;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  display: block;
+  margin-bottom: 8px;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .live-gallery {
+    padding: 40px 15px;
+  }
+
+  .gallery-container {
+    max-width: 100%; /* Lets it breathe on mobile */
+  }
+
+  .section-description {
+    font-size: 0.9rem;
+  }
+}
+
